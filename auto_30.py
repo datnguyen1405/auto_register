@@ -18,18 +18,19 @@ import os
 # Load variables from .env file
 load_dotenv()
 
-# Access variables
+###################################
+subnet=30
 ck_name = os.getenv("COLD_KEY_NAME")
+wallet = ck_name
 
-print(ck_name)
+items_hotkeys = os.getenv("HOT_KEY_NAME")
+hotkeys = items_hotkeys.split(',')
+
+highest_cost = 2.0 #The maximal amount of Tao you are willing to burn to register
+password = os.getenv("PASSWORD") #Password for your cold key
+network='test'
 ###################################
 
-
-subnet=32
-wallet = ck_name
-hotkeys = ["1","2","3"] #a list with the names of all the hotkeys you want to register
-highest_cost = 2.0 #The maximal amount of Tao you are willing to burn to register
-password = "" #Password for your cold key
 
 import pexpect
 import re
@@ -45,7 +46,7 @@ while True:
         while True:
             try:
                 iterate=False
-                command = 'btcli s register -subtensor.network finney --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
+                command = 'btcli s register --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
                 # Get the current time
                 current_time = datetime.now().time()
                 
@@ -61,9 +62,11 @@ while True:
                 child.logfile_read = sys.stdout.buffer
                 
                 child.expect('Enter subtensor network')
-                print("\nSending: <enter>", flush=True)
-                child.sendline('')
-                
+                # print("\nSending: <enter>", flush=True)
+                # child.sendline('')
+                print("\nSending: {}".format(network))
+                child.sendline(network)
+
                 child.expect(r'The cost to register by recycle is (.*?)(?:\n|$)')
                 cost_str = child.match.group(1).decode('utf-8').replace('τ', '')
                 clean_cost_str = re.sub(r'\x1b\[[0-9;]*m', '', cost_str).strip()

@@ -18,24 +18,19 @@ import os
 # Load variables from .env file
 load_dotenv()
 
-# Access variables
-ck_name = os.getenv("COLD_KEY_NAME")
-
-print(ck_name)
 ###################################
-
-
 subnet=3
+ck_name = os.getenv("COLD_KEY_NAME")
 wallet = ck_name
-# hotkeys = ["1","2","3"] #a list with the names of all the hotkeys you want to register
 
 items_hotkeys = os.getenv("HOT_KEY_NAME")
-# Split the string into a list
 hotkeys = items_hotkeys.split(',')
 
 highest_cost = 2.0 #The maximal amount of Tao you are willing to burn to register
-password = "" #Password for your cold key
+password = os.getenv("PASSWORD") #Password for your cold key
 network='test'
+###################################
+
 
 import pexpect
 import re
@@ -51,7 +46,7 @@ while True:
         while True:
             try:
                 iterate=False
-                command = 'btcli s register -subtensor.network test --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
+                command = 'btcli s register --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
                 # Get the current time
                 current_time = datetime.now().time()
                 
