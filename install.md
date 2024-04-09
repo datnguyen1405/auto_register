@@ -1,3 +1,10 @@
+#start auto registation:
+#install npm and pm2 before start:
+
+pm2 start auto_xx.py --name auto_xx --interpreter python3
+
+
+
 # Getting Started with Bittensor Mining
 
 ## Inital remarks

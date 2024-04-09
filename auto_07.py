@@ -11,9 +11,22 @@ Usage:
 3. Paste all the code into a file called re_keys.py
 4. Start the program by running: python3 reg_keys.py
 """
+###################################
+from dotenv import load_dotenv
+import os
+
+# Load variables from .env file
+load_dotenv()
+
+# Access variables
+ck_name = os.getenv("COLD_KEY_NAME")
+
+print(ck_name)
+###################################
 
 
-wallet = "name_of_your_coldkey"
+subnet=32
+wallet = ck_name
 hotkeys = ["1","2","3"] #a list with the names of all the hotkeys you want to register
 highest_cost = 2.0 #The maximal amount of Tao you are willing to burn to register
 password = "" #Password for your cold key
@@ -25,13 +38,14 @@ import time
 import traceback
 from datetime import datetime
 
+
 iterate=False
 while True:
     for hotkey in hotkeys:
         while True:
             try:
                 iterate=False
-                command = 'btcli recycle_register -subtensor.network finney --netuid 1 --wallet.name {} --wallet.hotkey {}'.format(wallet,hotkey)
+                command = 'btcli s register -subtensor.network finney --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
                 # Get the current time
                 current_time = datetime.now().time()
                 
@@ -68,7 +82,7 @@ while True:
                 child.sendline(password)
                 print("\nPassword sent")
                 try:
-                    child.expect(r'Recycle (.*?) to register on subnet')
+                    child.expect(r'Recycle (.*?) to register on subnet:{}?'.format(subnet))
                 except:
                     break
                 recycle_cost_str = child.match.group(1).decode('utf-8').replace('τ', '')
