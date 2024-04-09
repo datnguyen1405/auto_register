@@ -50,7 +50,7 @@ while True:
         while True:
             try:
                 iterate=False
-                command = 'btcli s register -subtensor.network finney --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
+                command = 'btcli s register -subtensor.network test --netuid {} --wallet.name {} --wallet.hotkey {}'.format(subnet,wallet,hotkey)
                 # Get the current time
                 current_time = datetime.now().time()
                 
