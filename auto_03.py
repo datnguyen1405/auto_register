@@ -35,6 +35,7 @@ hotkeys = items_hotkeys.split(',')
 
 highest_cost = 2.0 #The maximal amount of Tao you are willing to burn to register
 password = "" #Password for your cold key
+network='test'
 
 import pexpect
 import re
@@ -66,9 +67,11 @@ while True:
                 child.logfile_read = sys.stdout.buffer
                 
                 child.expect('Enter subtensor network')
-                print("\nSending: <enter>", flush=True)
-                child.sendline('')
-                
+                # print("\nSending: <enter>", flush=True)
+                # child.sendline('')
+                print("\nSending: {}".format(network))
+                child.sendline(network)
+
                 child.expect(r'The cost to register by recycle is (.*?)(?:\n|$)')
                 cost_str = child.match.group(1).decode('utf-8').replace('τ', '')
                 clean_cost_str = re.sub(r'\x1b\[[0-9;]*m', '', cost_str).strip()
