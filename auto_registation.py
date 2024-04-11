@@ -20,7 +20,7 @@ import requests
 load_dotenv()
 
 ###################################
-subnet=3
+subnet=31
 ck_name = os.getenv("COLD_KEY_NAME")
 wallet = ck_name
 

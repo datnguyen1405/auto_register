@@ -14,12 +14,13 @@ Usage:
 ###################################
 from dotenv import load_dotenv
 import os
+import requests
 
 # Load variables from .env file
 load_dotenv()
 
 ###################################
-subnet=32
+subnet=3
 ck_name = os.getenv("COLD_KEY_NAME")
 wallet = ck_name
 
@@ -28,7 +29,7 @@ hotkeys = items_hotkeys.split(',')
 
 highest_cost = 2.0 #The maximal amount of Tao you are willing to burn to register
 password = os.getenv("PASSWORD") #Password for your cold key
-network=os.getenv("NETWORK")
+network = os.getenv("NETWORK")
 ###################################
 
 
@@ -39,6 +40,16 @@ import time
 import traceback
 from datetime import datetime
 
+
+def send_message(html_text):
+    if html_text != '':
+        data = { 
+            "chat_id": "-4190620407", 
+            "text": html_text, 
+            "parse_mode": "HTML" 
+        } 
+        requests.post('https://api.telegram.org/bot6882833557:AAHT0H0WeS6Z-VR0vF2PSwwYoWrXgjqfd7Q/sendMessage', json=data) 
+    
 
 iterate=False
 while True:
@@ -99,8 +110,9 @@ while True:
                 else:
                     print("Sending2: y", flush=True)
                     child.sendline('y')
-                    
-                    child.expect(r'Registered',timeout=120)
+                    text_result = f'You are registered HOTKEY {hotkey} on SUBNET {subnet} with {recycle_cost:.15f} FEE.\n'
+                    child.expect(r'Registered',send_message(text_result))
+                    # send_message(html)
                     break
             except Exception as e:
                 print("An error occured", e)
