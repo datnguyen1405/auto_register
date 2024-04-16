@@ -111,7 +111,8 @@ while True:
                     print("Sending2: y", flush=True)
                     child.sendline('y')
                     text_result = f'You are registered HOTKEY {hotkey} on SUBNET {subnet} with {recycle_cost:.15f} FEE.\n'
-                    child.expect(r'Registered',send_message(text_result))
+                    child.expect([r'Registered', r'Already'], timeout=10)
+                    send_message(text_result)
                     # send_message(html)
                     break
             except Exception as e:

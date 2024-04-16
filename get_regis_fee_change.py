@@ -8,11 +8,11 @@ def run_script():
     subtensor = bt.subtensor() 
     subnets = subtensor.get_all_subnets_info() 
  
-    html = 'dậy đi' 
+
     for subnet in subnets: 
         burn = float(subnet.burn)
         emission = subnet.emission_value / bt.utils.RAOPERTAO * 100
-        if burn_map.get(subnet.netuid) is not None and burn_map[subnet.netuid] != burn and burn < 0.4 and subnet.netuid.isin([5,24,25,26,27,28,29,30,31,32]):
+        if burn_map.get(subnet.netuid) is not None and burn_map[subnet.netuid] != burn and burn < 0.4 and subnet.netuid.isin([5,24,25,26,16,29,30,31,32]):
             html += f'Subnet {subnet.netuid} emission {emission:0.2f}%. From {burn_map[subnet.netuid]:0.5f} to {burn:0.5f}\n'
             burn_map[subnet.netuid] = burn 
         elif burn_map.get(subnet.netuid) is None: 
