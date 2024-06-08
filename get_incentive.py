@@ -15,11 +15,11 @@ tele_chat_id = "-4206695854"
 tele_report_token = "6882833557:AAHT0H0WeS6Z-VR0vF2PSwwYoWrXgjqfd7Q"
 reward_map = {}
 
-hotkeys = {
+hotkeys = {}
             # "5FWr1PnUHszMLcYBxMFaV73ZFyBy4vZqnUgRNakuEBaEWS39",
             # "5EuzFvNmxt8Z7XCVbmKWzbUYKJkgZawVTVeyacj6tZQf3y1H",
             # "5FCZ4FbxNwzHfmvjVwqunfJ5wKGw6Ds3r7dPJoyXJVsf5Snm"
-        }
+        
 
 def get_subnet_reward(netuid, cold_keys, rewards):
     x = PrettyTable()
@@ -57,7 +57,8 @@ def get_subnet_reward(netuid, cold_keys, rewards):
             has_change = True
 
         reward_map[key] = row['DAILY REWARDS']
-        hot_name = hotkeys.get(row['HOTKEY'], '')
+        hot_name = row['HOTKEY'][:6]
+        # hot_name = hotkeys.get(row['HOTKEY'], '')
         x.add_row([hot_name, row['INCENTIVE'],
                    '{0:.3f}'.format(row['DAILY REWARDS']) + arrow,
                    incentives[incentives < row['INCENTIVE']].count() + 1])
