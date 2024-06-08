@@ -25,9 +25,9 @@ ck_name = os.getenv("COLD_KEY_NAME")
 wallet = ck_name
 
 items_hotkeys = os.getenv("HOT_KEY_NAME")
-#hotkeys = items_hotkeys.split(',')
-hotkeys=["hk3"]
-highest_cost = 0.5 #The maximal amount of Tao you are willing to burn to register
+hotkeys = items_hotkeys.split(',')
+
+highest_cost = 0.6 #The maximal amount of Tao you are willing to burn to register
 password = os.getenv("PASSWORD") #Password for your cold key
 network = os.getenv("NETWORK")
 ###################################
@@ -111,7 +111,8 @@ while True:
                     print("Sending2: y", flush=True)
                     child.sendline('y')
                     text_result = f'You are registered HOTKEY {hotkey} on SUBNET {subnet} with {recycle_cost:.15f} FEE.\n'
-                    child.expect(r'Registered')
+                    child.expect([r'Registered', r'Already'], timeout=5)
+                    send_message(text_result)
                     # send_message(html)
                     break
             except Exception as e:

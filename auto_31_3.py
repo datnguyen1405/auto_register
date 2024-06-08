@@ -26,7 +26,7 @@ wallet = ck_name
 
 items_hotkeys = os.getenv("HOT_KEY_NAME")
 #hotkeys = items_hotkeys.split(',')
-hotkeys=["hk3"]
+hotkeys="hk4"
 highest_cost = 0.5 #The maximal amount of Tao you are willing to burn to register
 password = os.getenv("PASSWORD") #Password for your cold key
 network = os.getenv("NETWORK")
